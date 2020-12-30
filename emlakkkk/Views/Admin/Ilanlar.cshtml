@@ -1,0 +1,120 @@
+﻿@model Tuple<List<emlakkkk.Models.products>>
+@using emlakkkk.Helper
+@{
+    ViewBag.Title = "Ilanlar";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    #myInput {
+        background-image: url('https://www.w3schools.com/css/searchicon.png'); /* Add a search icon to input */
+        background-position: 10px 12px; /* Position the search icon */
+        background-repeat: no-repeat; /* Do not repeat the icon image */
+        width: 100%; /* Full-width */
+        padding: 12px 20px 12px 40px; /* Add some padding */
+        border: 1px solid #ddd; /* Add a grey border */
+        margin-bottom: 12px; /* Add some space below the input */
+    }
+
+    #myTable {
+        border-collapse: collapse; /* Collapse borders */
+        width: 100%; /* Full-width */
+        border: 1px solid #ddd; /* Add a grey border */
+    }
+
+        #myTable th, #myTable td {
+            text-align: left; /* Left-align text */
+            padding: 12px; /* Add padding */
+        }
+
+        #myTable tr {
+            /* Add a bottom border to all table rows */
+            border-bottom: 1px solid #ddd;
+        }
+
+            #myTable tr.header, #myTable tr:hover {
+                /* Add a grey background color to the table header and on hover */
+                background-color: #f1f1f1;
+            }
+</style>
+
+<!-- /page content -->
+<div class="page-title">
+    <div class="title_left">
+        <h3> Ürünler <small> </small> </h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Yayınlanan Ürünler </h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+
+                <div class="row">
+
+                    <p>Bu alandan daha önce yayınlanan ürünleri inceleyebilir ya da silebilirsiniz.</p><br />
+                    <p style="color:red">@TempData["DonenMesaj"]</p>
+                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="İlan Adına göre ara..">
+                    <table id="myTable">
+                        <tr class="header">
+                            <th width="2%">Ürün Görseli</th>
+                            <th width="10%">Ürün Kodu</th>
+                            <th>Ürün Adı</th>
+                            <th width="7%">İşlem</th>
+                        </tr>
+                        @foreach (var item in Model.Item1)
+                        {
+                            <tr>
+                                <td>@*<a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})"><img src="~/Content/Uploads/@item.urunGorsel1" width="25" height="25" /></a>*@</td>
+                                <td><a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})">@item.productId</a> </td>
+                                <td><a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})">@(item.productName.Count() > 100 ? item.productName.Substring(0, 100) + "..." : item.productName )</a></td>
+                                <td>
+                                    @using (Html.BeginForm("Sil", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <input type="hidden" name="productId" value="@item.productId" />
+                                        <button style="background-color:transparent;border:none" title="Sil"><i class="fa fa-times"></i> Sil</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+

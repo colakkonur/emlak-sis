@@ -1,0 +1,162 @@
+﻿@model Tuple<List<emlakkkk.Models.messages>>
+@{
+    ViewBag.Title = "Messages";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="col-lg-12 mb10">
+    <div class="breadcrumb_content style2">
+        <h2 class="breadcrumb_title">Mesajlarım</h2>
+        <p>We are glad to see you again!</p>
+    </div>
+</div>
+<div class="col-lg-12 col-xl-12">
+    <div class="message_container">
+        <div class="inbox_user_list" style="height:100%">
+            <ul>
+                @{
+                    if (Model.Item1.Count() < 1)
+                    {
+                        <div class="mbp_pagination">
+                            <ul class="page_navigation">
+                                <h2 class="breadcrumb_title">Gelen mesaj yok</h2>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        int user = 0;
+                        foreach (var item in Model.Item1.Where(w => w.fromUser != user))
+                        {
+                            <li class="contact">
+                                <a href="@Url.Action("MessageDetail","User", new {id = @item.fromUser})">
+                                    <div class="wrap">
+                                        <img class="img-fluid" style="height:42px;width:42px;border-radius:50px 50px" src="~/Content/uploads/avatar/@(@item.users.avatarSource != null ? @item.users.avatarSource : "User-01.png")" alt="user-avatar-images" />
+                                        <div class="meta">
+                                            <h5 class="name">@item.users.name @item.users.surname</h5>
+                                            <p class="preview">@item.messaceContent.</p>
+                                        </div>
+                                        @*<div class="m_notif">2</div>*@
+                                    </div>
+                                </a>
+                            </li>
+                            user = Convert.ToInt32(item.fromUser);
+                        }
+                    }
+
+                }
+                @*<li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status online"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s2.jpg" alt="s2.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Jacob Brown</h5>
+                        <p class="preview">You: Where is Alex?</p>
+                    </div>
+                    <div class="m_notif">5</div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status online"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s3.jpg" alt="s3.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Harry Taylor</h5>
+                        <p class="preview">I'm going to office.</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status busy"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s4.jpg" alt="s4.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Sarah Miller</h5>
+                        <p class="preview">You: okay!</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status away"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s5.jpg" alt="s5.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Joanne Davies</h5>
+                        <p class="preview">Let’s go!</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status busy"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s6.jpg" alt="s6.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Sam Lee</h5>
+                        <p class="preview">Awesome!</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status online"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s7.jpg" alt="s7.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Vincent Porter</h5>
+                        <p class="preview">I'm going to office.</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status online"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s8.jpg" alt="s8.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Jacob Brown</h5>
+                        <p class="preview">You: Where is Alex?</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status online"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s1.jpg" alt="s1.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Vincent Porter</h5>
+                        <p class="preview">I'm going to office.</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="contact">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status online"></span>
+                    <img class="img-fluid" src="~/Content/images/team/s2.jpg" alt="s2.jpg" />
+                    <div class="meta">
+                        <h5 class="name">Jacob Brown</h5>
+                        <p class="preview">You: Where is Alex?</p>
+                    </div>
+                </div>
+            </a>
+        </li>*@
+            </ul>
+        </div>
+    </div>
+</div>
+<br /><br /><br />
+
+

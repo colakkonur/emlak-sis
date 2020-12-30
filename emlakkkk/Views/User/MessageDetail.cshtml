@@ -1,0 +1,46 @@
+﻿@model Tuple<List<emlakkkk.Models.messages>, List<emlakkkk.Models.messages>>
+@{
+    ViewBag.Title = "MessageDetail";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="col-lg-12 col-xl-12">
+    <div class="message_container">
+        <div class="user_heading">
+            <a href="#">
+                <div class="wrap">
+                    <span class="contact-status online"></span>
+                    <img class="img-fluid" style="height:42px;width:42px;border-radius:50px 50px" src="~/Content/uploads/avatar/@(TempData["mesajGondereninAvatari"] != null ? TempData["mesajGondereninAvatari"] : "User-01.png")" alt="user-avatar-images" />
+                    <div class="meta">
+                        <h5 class="name">@TempData["mesajGondereninAdi"]</h5>
+                        <p class="preview">Birşeyler yaz!</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="inbox_chatting_box">
+            <ul class="chatting_content">
+                @foreach (var item in Model.Item1.OrderBy(w=>w.date))
+                {
+                    <li class="@(item.toUser == Convert.ToInt32(Session["userid"]) ? "media sent":"media reply")">
+                        <div class="media-body">
+                            <div class="date_time">@item.date.ToString()</div>
+                            <p>@item.messaceContent</p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <br /><br /><br />
+        <div class="mi_text">
+            <div class="message_input">
+                    @using (Html.BeginForm("MessageDetail", "User", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        <input class="form-control" type="text" name="messaceContent" placeholder="Enter text here..." >
+                        <button class="btn" type="submit">Send Message</button>
+                    }
+            </div>
+        </div>
+    </div>
+</div>
+

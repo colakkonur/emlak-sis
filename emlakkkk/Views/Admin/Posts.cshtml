@@ -1,0 +1,138 @@
+﻿@model Tuple<List<emlakkkk.Models.posts>>
+@{
+    ViewBag.Title = "Posts";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<div class="">
+    <!-- page content -->
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Blog Sistemi </h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-12 col-sm-12 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Post Oluştur</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                @using (Html.BeginForm("Posts", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                <div class="x_content">
+                    <p><a href="http://www.kalbimanaokulu.com/blog"><strong>kalbimanaokulu.com/blog</strong></a> adresinde paylaşılmak üzere post yayımla(Kapak görseli seçimi zorunludur).</p><br />
+                    <p style="color:#ff0000">@TempData["MessageRed"]</p>
+                    <div class="form-group">
+                        <label class="control-label">Post Başlığı</label>
+                        <div class="">
+                            <input type="text" class="form-control" name="postTitle" placeholder="Post Başlığı" value="@TempData["postBaslik"]" required aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Post İçeriği</label>
+                        <div class="">
+                            <textarea id="editor1" type="text" class="form-control" name="postContent" placeholder="Post İçeriği" style="height:100px">@TempData["postIcerik"]</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Etiketler</label>
+                        <div class="">
+                            <input type="text" class="form-control" name="postTag" placeholder="Etiketler(boşluk olmadan aralarına virgül koyunuz. Orn: kitap,defter)" value="@TempData["postBaslik"]" required aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input name="postImage1" type="file" class="form-input" accept=".png,.jpg,.jpeg,.webp" required aria-required="true">
+                        <div class="form-group">
+                            <div>
+                                <br />
+                                <input type="submit" class="btn btn-success" value="Kaydet" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+    <div class="page-title">
+        <div class="title_left">
+            <h3> Postlar <small>Tümü </small> </h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Paylaşılan Postlar</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <p>Bu alandan daha önce paylaşılan postları inceleyebilir ya da silebilirsiniz.</p><br />
+                        <p style="color:green">@TempData["DonenMesaj"]</p>
+                        @foreach (var item in Model.Item1)
+                        {
+                            <div class="col-md-55">
+                                <div class="thumbnail" style="height:500px">
+                                    <div class="image view view-first">
+                                        <img style="width: 100%;height:100%; display: block;" src="~/Content/Uploads/images/@item.postImage" alt="image" />
+                                        <div class="mask no-caption">
+                                            <div class="tools tools-bottom">
+                                                @using (Html.BeginForm("Sil", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                {
+                                                    <input type="hidden" name="postId" value="@item.postId" />
+                                                    <button style="background-color:transparent;border:none" title="Sil"><i class="fa fa-times"></i> Silmek İçin Tıkla</button>
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="caption" style="height:100%">
+                                        <p>
+                                            <strong>Post Başlığı: </strong>@item.postTitle
+                                        </p>
+                                        <p><strong>Yazar: </strong>@item.users.name @item.users.surname</p>
+                                        <p><strong>Yayınlanma Tarihi: </strong>@item.releaseDate</p>
+                                        <p><strong>Post İçeriği: </strong><br />@Html.Raw(item.postContent)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var editor = CKEDITOR.instances['editor1'];
+    if (editor) { editor.destroy(true); }
+    CKEDITOR.replace('editor1', {
+        enterMode: CKEDITOR.ENTER_BR,
+    });
+</script>

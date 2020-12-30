@@ -1,0 +1,521 @@
+﻿@model Tuple<emlakkkk.Models.products, List<emlakkkk.Models.images>, emlakkkk.Models.details, emlakkkk.Models.features>
+@using emlakkkk.Helper
+@{
+    ViewBag.Title = "ListingSingle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="single_page_listing_tab">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="slider-tab" data-toggle="tab" href="#slider_tabs" role="tab" aria-controls="slider_tabs" aria-selected="true"><span class="flaticon-photo-camera color-white"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="map-tab" data-toggle="tab" href="#map_tabs" role="tab" aria-controls="map_tabs" aria-selected="false"><span class="flaticon-pin color-white"></span></a>
+                    </li>
+                    @*<li class="nav-item">
+                        <a class="nav-link" id="street-view-tab" data-toggle="tab" href="#street_view" role="tab" aria-controls="street_view" aria-selected="false"><span class="flaticon-street-view color-white"></span></a>
+                    </li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="slider_tabs" role="tabpanel" aria-labelledby="slider-tab">
+            <!-- 10th Home Slider -->
+
+            <div class="home10-mainslider">
+                <div class="container-fluid p0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="main-banner-wrapper home10">
+                                <div class="banner-style-one owl-theme owl-carousel">
+                                    @foreach (var item in Model.Item2)
+                                    {
+                                        <a class="popup-img" href="~/Content/uploads/images/@item.imageSource">
+                                            <div class="slide slide-one" style="background-image: url(../Content/uploads/images/@item.imageSource);height: 600px;">
+                                            </div>
+                                        </a>
+                                    }
+                                    <div class="slide slide-one" style="height: 600px;"></div>
+                                </div>
+                                <div class="carousel-btn-block banner-carousel-btn">
+                                    <span class="carousel-btn left-btn"><i class="flaticon-left-arrow-1 left"></i></span>
+                                    <span class="carousel-btn right-btn"><i class="flaticon-right-arrow right"></i></span>
+                                </div><!-- /.carousel-btn-block banner-carousel-btn -->
+                            </div><!-- /.main-banner-wrapper -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="map_tabs" role="tabpanel" aria-labelledby="map-tab">
+            <iframe src="https://maps.google.com/maps?q=@Model.Item1.latLong&hl=es;z=14&amp;output=embed" width="600" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+        @*<div class="tab-pane fade" id="street_view" role="tabpanel" aria-labelledby="street-view-tab">
+            <iframe class="h600 w100" src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyBHHQTvatF9S2fpqG81M-I2cW8EY1MkFrA&location=@Model.Item1.latLong" frameborder="0" allowfullscreen></iframe>
+        </div>*@
+    </div>
+</div>
+<!-- Agent Single Grid View -->
+<section class="our-agent-single bgc-f7 pb30-991">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="listing_sidebar dn db-991">
+                    <div class="sidebar_content_details style3">
+                        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+                        <div class="sidebar_listing_list style2 mobile_sytle_sidebar mb0">
+                            <div class="sidebar_advanced_search_widget">
+                                <h4 class="mb25">Advanced Search <a class="filter_closed_btn float-right" href="#"><small>Hide Filter</small> <span class="flaticon-close"></span></a></h4>
+                                <ul class="sasw_list style2 mb0">
+                                    <li class="search_area">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="exampleInputName1" placeholder="keyword">
+                                            <label for="exampleInputEmail"><span class="flaticon-magnifying-glass"></span></label>
+                                        </div>
+                                    </li>
+                                    <li class="search_area">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="exampleInputEmail" placeholder="Location">
+                                            <label for="exampleInputEmail"><span class="flaticon-maps-and-flags"></span></label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="search_option_two">
+                                            <div class="candidate_revew_select">
+                                                <select class="selectpicker w100 show-tick">
+                                                    <option>Status</option>
+                                                    <option>Apartment</option>
+                                                    <option>Bungalow</option>
+                                                    <option>Condo</option>
+                                                    <option>House</option>
+                                                    <option>Land</option>
+                                                    <option>Single Family</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="search_option_two">
+                                            <div class="candidate_revew_select">
+                                                <select class="selectpicker w100 show-tick">
+                                                    <option>Property Type</option>
+                                                    <option>Apartment</option>
+                                                    <option>Bungalow</option>
+                                                    <option>Condo</option>
+                                                    <option>House</option>
+                                                    <option>Land</option>
+                                                    <option>Single Family</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="small_dropdown2">
+                                            <div id="prncgs" class="btn dd_btn">
+                                                <span>Price</span>
+                                                <label for="exampleInputEmail2"><span class="fa fa-angle-down"></span></label>
+                                            </div>
+                                            <div class="dd_content2">
+                                                <div class="pricing_acontent">
+                                                    <input type="text" class="amount" placeholder="$52,239">
+                                                    <input type="text" class="amount2" placeholder="$985,14">
+                                                    <div class="slider-range"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="search_option_two">
+                                            <div class="candidate_revew_select">
+                                                <select class="selectpicker w100 show-tick">
+                                                    <option>Bathrooms</option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                    <option>6</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="search_option_two">
+                                            <div class="candidate_revew_select">
+                                                <select class="selectpicker w100 show-tick">
+                                                    <option>Bedrooms</option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                    <option>6</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="search_option_two">
+                                            <div class="candidate_revew_select">
+                                                <select class="selectpicker w100 show-tick">
+                                                    <option>Garages</option>
+                                                    <option>Yes</option>
+                                                    <option>No</option>
+                                                    <option>Others</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="search_option_two">
+                                            <div class="candidate_revew_select">
+                                                <select class="selectpicker w100 show-tick">
+                                                    <option>Year built</option>
+                                                    <option>2013</option>
+                                                    <option>2014</option>
+                                                    <option>2015</option>
+                                                    <option>2016</option>
+                                                    <option>2017</option>
+                                                    <option>2018</option>
+                                                    <option>2019</option>
+                                                    <option>2020</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="min_area style2 list-inline-item">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Min Area">
+                                        </div>
+                                    </li>
+                                    <li class="max_area list-inline-item">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="exampleInputName3" placeholder="Max Area">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div id="accordion" class="panel-group">
+                                            <div class="panel">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a href="#panelBodyRating" class="accordion-toggle link" data-toggle="collapse" data-parent="#accordion"><i class="flaticon-more"></i> Advanced features</a>
+                                                    </h4>
+                                                </div>
+                                                <div id="panelBodyRating" class="panel-collapse collapse">
+                                                    <div class="panel-body row">
+                                                        <div class="col-lg-12">
+                                                            <ul class="ui_kit_checkbox selectable-list float-left fn-400">
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                                        <label class="custom-control-label" for="customCheck1">Air Conditioning</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                                                        <label class="custom-control-label" for="customCheck4">Barbeque</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck10">
+                                                                        <label class="custom-control-label" for="customCheck10">Gym</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                                                        <label class="custom-control-label" for="customCheck5">Microwave</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                                                        <label class="custom-control-label" for="customCheck6">TV Cable</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                                        <label class="custom-control-label" for="customCheck2">Lawn</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck11">
+                                                                        <label class="custom-control-label" for="customCheck11">Refrigerator</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                                                        <label class="custom-control-label" for="customCheck3">Swimming Pool</label>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            <ul class="ui_kit_checkbox selectable-list float-right fn-400">
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck12">
+                                                                        <label class="custom-control-label" for="customCheck12">WiFi</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck14">
+                                                                        <label class="custom-control-label" for="customCheck14">Sauna</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                                                        <label class="custom-control-label" for="customCheck7">Dryer</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck9">
+                                                                        <label class="custom-control-label" for="customCheck9">Washer</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck13">
+                                                                        <label class="custom-control-label" for="customCheck13">Laundry</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck8">
+                                                                        <label class="custom-control-label" for="customCheck8">Outdoor Shower</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="customCheck15">
+                                                                        <label class="custom-control-label" for="customCheck15">Window Coverings</label>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="search_option_button">
+                                            <button type="submit" class="btn btn-block btn-thm">Search</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-7 col-xl-8">
+                <div class="dn db-991 mt30 mb0">
+                    <div id="main2">
+                        <span id="open2" class="flaticon-filter-results-button filter_open_btn style3"> Show Filter</span>
+                    </div>
+                </div>
+                <div class="single_property_title mt30-767 mb30-767">
+                    <h2>@Model.Item1.productName</h2>
+                    <p>@Model.Item1.countryName @Model.Item1.counties.provinces.provinceName @Model.Item1.counties.countyName</p>
+                </div>
+            </div>
+            <div class="col-lg-5 col-xl-4">
+                <div class="single_property_social_share">
+                    <div class="price float-left fn-400">
+                        <h2>@Model.Item1.price<small>/TL</small></h2>
+                    </div>
+                    <div class="spss mt20 text-right tal-400">
+                        <ul class="mb0">
+                            <li @ViewBag.FavoriSorgusu class="list-inline-item "><a href="@Url.Action("FavEkle", "User", new { @id = Model.Item1.productId })"><span class="flaticon-heart"></span></a></li>
+                            <li class="list-inline-item"><a href="#"><span class="flaticon-share"></span></a></li>
+                            <li class="list-inline-item"><a href="#"><span class="flaticon-printer"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-8 mt50">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="listing_single_description">
+                            <div class="lsd_list">
+                                <ul class="mb0">
+                                    <li class="list-inline-item"><a href="#">@Model.Item1.categories.categoryName</a></li>
+                                    <li class="list-inline-item"><a href="#">@Model.Item1.type</a></li>
+                                </ul>
+                            </div>
+                            <h4 class="mb30">Açıklama</h4>
+                            <p class="mb25">@Model.Item1.description</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="additional_details">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 class="mb15">Detaylar</h4>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                    <ul class="list-inline-item">
+                                        <li><p>İlan ID :</p></li>
+                                        <li><p>İlan Tipi :</p></li>
+                                        <li><p>Kategori :</p></li>
+                                        <li><p>Yapım Yılı :</p></li>
+                                    </ul>
+                                    <ul class="list-inline-item">
+                                        <li><p><span>@Model.Item1.productId</span></p></li>
+                                        <li><p><span>@Model.Item1.type</span></p></li>
+                                        <li><p><span>@Model.Item1.categories.categoryName</span></p></li>
+                                        <li><p><span>@Model.Item3.BuildingAge</span></p></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                    <ul class="list-inline-item">
+                                        <li><p>Depozito :</p></li>
+                                        <li><p>Oda Sayısı :</p></li>
+                                        <li><p>Metrekare :</p></li>
+                                        <li><p>Kat :</p></li>
+                                    </ul>
+                                    <ul class="list-inline-item">
+                                        <li><p><span>@(Convert.ToInt32(Model.Item3.deposit) == 0 ? "Yok" : "%" + Model.Item3.deposit)</span></p></li>
+                                        <li><p><span>@Model.Item3.roomQuantity</span></p></li>
+                                        <li><p><span>@Model.Item3.squareMeters &#13217;</span></p></li>
+                                        <li><p><span>@Model.Item3.floor</span></p></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                    <ul class="list-inline-item">
+                                        <li><p>Yapı Durumu :</p></li>
+                                    </ul>
+                                    <ul class="list-inline-item">
+                                        <li><p><span>@Model.Item3.buildingStatus</span></p></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <ul class="list-inline-item">
+                                        <li><p>Isıtma Tipi :</p></li>
+                                    </ul>
+                                    <ul class="list-inline-item">
+                                        <li><p><span>@Model.Item3.heatingType</span></p></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="property_attachment_area">
+                            <h4 class="mb30">Ek Dosyalar</h4>
+                            <div class="iba_container style2">
+                                @{
+                                    if (Model.Item3.attachments == null)
+                                    {
+                                        <ul class="list-inline-item">
+                                            <li><p>Ek bulunamadı</p></li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <div class="icon_box_area style2">
+                                            <div class="score"><span class="flaticon-document text-thm fz30"></span></div>
+                                            <div class="details">
+                                                <h5><span class="flaticon-download text-thm pr10"></span> Ekteki dosyayı indir</h5>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="application_statics mt30">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 class="mb10">Özellik & Olanaklar</h4>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                    <ul class="order_list list-inline-item">
+                                        <li><a href="#"><span class="@(Model.Item4.carPark == 1 ? "flaticon-tick" : "flaticon-close")"></span>Otopark</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.swimmingPool == 1 ? "flaticon-tick" : "flaticon-close")"></span>Havuz</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.sauna == 1 ? "flaticon-tick" : "flaticon-close")"></span>Sauna</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.airConditioning == 1 ? "flaticon-tick" : "flaticon-close")"></span>Klima</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.gym == 1 ? "flaticon-tick" : "flaticon-close")"></span>Spor Salonu</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                    <ul class="order_list list-inline-item">
+                                        <li><a href="#"><span class="@(Model.Item4.wifi == 1 ? "flaticon-tick" : "flaticon-close")"></span>WiFi</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.furnitureStatus == 1 ? "flaticon-tick" : "flaticon-close")"></span>Mobilyalı</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.dues == 1 ? "flaticon-tick" : "flaticon-close")"></span>Aidatlı</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.swapability == 1 ? "flaticon-tick" : "flaticon-close")"></span>Takasa Uygun</a></li>
+                                        <li><a href="#"><span class="@(Model.Item4.eligibilityForCredit == 1 ? "flaticon-tick" : "flaticon-close")"></span>Krediye Uygun</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="application_statics mt30">
+                            <h4 class="mb30">Lokasyon <small class="float-right">@Model.Item1.countryName @Model.Item1.counties.provinces.provinceName @Model.Item1.counties.countyName @Model.Item1.adress</small></h4>
+                            <div class="property_video p0">
+                                <div class="thumb">
+                                    <iframe src="https://maps.google.com/maps?q=@Model.Item1.latLong&hl=es;z=14&amp;output=embed" height="400px"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br /><br />
+                </div>
+            </div>
+            <div class="col-lg-4 col-xl-4 mt50">
+                <div class="sidebar_listing_list">
+                    <div class="sidebar_advanced_search_widget">
+                        <div class="sl_creator">
+                            <h4 class="mb25">Yayınlayan</h4>
+                            <div class="media">
+                                <img class="mr-3" style="width:70px;height:70px;border-radius:50px 50px" src="~/Content/uploads/avatar/@(Model.Item1.users.avatarSource != null ? Model.Item1.users.avatarSource : "User-01.png")" alt="@Model.Item1.users.name @Model.Item1.users.surname.ToUpper()">
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb0">@Model.Item1.users.name @Model.Item1.users.surname.ToUpper()</h5>
+                                    <p class="mb0">@Model.Item1.users.phone</p>
+                                    <p class="mb0"><a href="mailto:@Model.Item1.users.mail">@Model.Item1.users.mail</a></p>
+                                    <a class="text-thm" href="@Url.Action("MemberSingle","Home", new {ad = @Url.FriendlyURLTitle(@Model.Item1.users.name), soyad = @Url.FriendlyURLTitle(@Model.Item1.users.surname), id = @Model.Item1.users.userId})">Profili Görüntüle</a>
+                                </div>
+                            </div>
+                        </div>
+                        @using (Html.BeginForm("MessageDetail", "User", FormMethod.Post))
+                        {
+                            <ul class="sasw_list mb0">
+                                <li class="search_area">
+                                    <div class="form-group">
+                                        <input hidden name="kime" value="@Model.Item1.userId" />
+                                        <textarea type="text" name="messaceContent" class="form-control" id="exampleInputName1" placeholder="Mesajın" required aria-required="true"></textarea>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="search_option_button">
+                                        <button type="submit" class="btn btn-block btn-thm">Gönder</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

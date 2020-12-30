@@ -1,0 +1,315 @@
+﻿@model Tuple<List<emlakkkk.Models.products>, List<emlakkkk.Models.images>, List<emlakkkk.Models.provinces>, List<emlakkkk.Models.posts>>
+@using emlakkkk.Helper
+@{
+    ViewBag.Title = "Home Page";
+}
+<!-- Home Design -->
+<section class="home-one home1-overlay home1_bgi1">
+    <div class="container">
+        <div class="row posr">
+            <div class="col-lg-12">
+                <div class="home_content">
+                    <div class="home-text text-center">
+                        <h2 class="fz55">Hayalindeki evi ara</h2>
+                        <p class="fz18 color-white">From as low as $10 per day with limited time offer discounts.</p>
+                    </div>
+                    <div class="home_adv_srch_opt">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Kelime ara</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Listing","Home")">Detaylı ara</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content home1_adsrchfrm" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                <div class="home1-advnc-search">
+                                    <ul class="h1ads_1st_list mb0">
+                                        @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <li class="list-inline-item" style="width:80%">
+                                                <div class="form-group">
+                                                    <input type="text" name="productName" style="width:100%" class="form-control" placeholder="Anahtar kelime...">
+                                                </div>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <div class="search_option_button">
+                                                    <input hidden value="1" name="filtreTetikleyici" />
+                                                    <button type="submit" class="btn btn-thm">Ara</button>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Feature Properties -->
+<section id="feature-property" class="feature-property bgc-f7">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="#feature-property">
+                    <div class="mouse_scroll">
+                        <div class="icon">
+                            <h4>Scroll Down</h4>
+                            <p>to discover more</p>
+                        </div>
+                        <div class="thumb">
+                            <img src="~/Content/images/resource/mouse.png" alt="mouse.png">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container ovh">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="main-title text-center mb40">
+                    <h2>Öne çıkan ilanlar</h2>
+                    <p>Özel olarak seçilen ilanlar.</p>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="feature_property_slider">
+
+                    @foreach (var item in Model.Item1)
+                    {
+                        <div class="item">
+                            <div class="feat_property">
+                                <div class="thumb">
+                                    @foreach (var item2 in Model.Item2.Where(w => w.productId == item.productId))
+                                    {
+                                        <img class="img-whp" style="width:318px;height:215px" src="~/Content/uploads/images/@item2.imageSource.ToString()" alt="@item.productName">
+                                    }
+                                    <div class="thmb_cntnt">
+                                        <ul class="tag mb0">
+                                            <li style="background-color:@(@item.type == "Satılık" ? "darkcyan" : "cornflowerblue")" class="list-inline-item"><a href="#">@item.type</a></li>
+                                            <li style="background-color:coral" class="list-inline-item"><a href="#">@item.categories.categoryName</a></li>
+                                            <li style="background-color:#FF5A5F" class="list-inline-item"><a href="#">@item.counties.provinces.provinceName</a></li>
+                                        </ul>
+                                        <a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})" class="fp_price">@item.price<small>/TL</small></a>
+                                    </div>
+                                </div>
+                                <div class="details">
+                                    <div class="tc_content">
+                                        <p class="text-thm">@item.categories.categoryName</p>
+                                        <a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})"><h4>@item.productName</h4></a>
+                                        <a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})">
+                                            <p><span class="flaticon-placeholder"></span> @item.countryName @item.counties.provinces.provinceName @item.counties.countyName</p>
+                                        </a>
+                                    </div>
+                                    <div class="fp_footer">
+                                        <ul class="fp_meta float-left mb0">
+                                            <li class="list-inline-item"><a href="@Url.Action("MemberSingle","Home", new {ad = @Url.FriendlyURLTitle(item.users.name), soyad = @Url.FriendlyURLTitle(item.users.surname), id = @item.users.userId})"><img style="height:42px;width:42px;border-radius:50px 50px" src="~/Content/uploads/avatar/@(@item.users.avatarSource != null ? item.users.avatarSource : "User-01.png")" alt="@item.users.name @item.users.surname.ToUpper()"></a></li>
+                                            <li class="list-inline-item"><a href="@Url.Action("MemberSingle","Home", new {ad = @Url.FriendlyURLTitle(item.users.name), soyad = @Url.FriendlyURLTitle(item.users.surname), id = @item.users.userId})">@item.users.name @item.users.surname.ToUpper()</a></li>
+                                        </ul>
+                                        <div class="fp_pdate float-right">@String.Format("{0:d  MMMM dddd}", @item.releaseDate)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Property Cities -->
+<section id="property-city" class="property-city pb30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="main-title text-center">
+                    <h2>Bu Şehirlerdeki ilanlara göz atın.</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-4 col-xl-4">
+                @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <label for="ankara" style="width:100%">
+                        <div class="properti_city">
+                            <div class="thumb"><img class="img-fluid w100" src="~/Content/images/property/pc1.jpg" alt="pc1.jpg"></div>
+                            <div class="overlay">
+                                <div class="details">
+                                    <h3 style="color:white">Ankara</h3>
+                                    <p>Bu ildeki ilanlara hemen göz at!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <input hidden name="filtreTetikleyici" value="3" />
+                    <input hidden name="ilId" value="6" />
+                    <button hidden type="submit" id="ankara"></button>
+                }
+            </div>
+            <div class="col-lg-8 col-xl-8">
+                @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <label for="istanbul" style="width:100%">
+                        <div class="properti_city">
+                            <div class="thumb"><img class="img-fluid w100" src="~/Content/images/property/pc2.jpg" alt="pc2.jpg"></div>
+                            <div class="overlay">
+                                <div class="details">
+                                    <h3 style="color:white">İstanbul</h3>
+                                    <p>Bu ildeki ilanlara hemen göz at!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <input hidden name="filtreTetikleyici" value="3" />
+                    <input hidden name="ilId" value="34" />
+                    <button hidden type="submit" id="istanbul"></button>
+                }
+            </div>
+            <div class="col-lg-8 col-xl-8">
+                @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <label for="izmir" style="width:100%">
+                        <div class="properti_city">
+                            <div class="thumb"><img class="img-fluid w100" src="~/Content/images/property/pc3.jpg" alt="pc3.jpg"></div>
+                            <div class="overlay">
+                                <div class="details">
+                                    <h3 style="color:white">İzmir</h3>
+                                    <p>Bu ildeki ilanlara hemen göz at!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <input hidden name="filtreTetikleyici" value="3" />
+                    <input hidden name="ilId" value="35" />
+                    <button hidden type="submit" id="izmir"></button>
+                }
+            </div>
+            <div class="col-lg-4 col-xl-4">
+                @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <label for="antalya" style="width:100%">
+                        <div class="properti_city">
+                            <div class="thumb"><img class="img-fluid w100" src="~/Content/images/property/pc4.jpg" alt="pc4.jpg"></div>
+                            <div class="overlay">
+                                <div class="details">
+                                    <h3 style="color:white">Antalya</h3>
+                                    <p>Bu ildeki ilanlara hemen göz at!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <input hidden name="filtreTetikleyici" value="3" />
+                    <input hidden name="ilId" value="7" />
+                    <button hidden type="submit" id="antalya"></button>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Our Blog -->
+<section class="our-blog bgc-f7 pb30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="main-title text-center">
+                    <h2>Makaleler & İpuçları</h2>
+                    <p>Emlak rehberi ve daha çok bilgi burada...</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Item4)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <div class="for_blog feat_property">
+                        <div class="thumb">
+                            <a href="@Url.Action("BlogSingle","Home", new { baslik = @Url.FriendlyURLTitle(@item.postTitle), id = @item.postId})"><img class="img-whp" style="max-height:190.1px;max-width:362px" src="~/Content/uploads/images/@item.postImage" alt="@item.postTitle"></a>
+                        </div>
+                        <div class="details">
+                            <div class="tc_content">
+                                <a href="@Url.Action("BlogSingle","Home", new { baslik = @Url.FriendlyURLTitle(@item.postTitle), id = @item.postId})"><p class="text-thm">Blog</p></a>
+                                <a href="@Url.Action("BlogSingle","Home", new { baslik = @Url.FriendlyURLTitle(@item.postTitle), id = @item.postId})"><h4>@item.postTitle</h4></a>
+                            </div>
+                            <div class="fp_footer">
+                                <ul class="fp_meta float-left mb0">
+                                    <li class="list-inline-item"><a href="#"><img style="height:42px;width:42px;border-radius:50px 50px" src="~/Content/uploads/avatar/@(@item.users.avatarSource != null ? item.users.avatarSource : "User-01.png")" alt="@item.users.name @item.users.surname.ToUpper()"></a></li>
+                                    <li class="list-inline-item"><a href="#">@item.users.name @item.users.surname.ToUpper()</a></li>
+                                </ul>
+                                <a class="fp_pdate float-right">@String.Format("{0:d  MMMM dddd}", @item.releaseDate)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</section>
+<!-- Our Partners -->
+<section id="our-partners" class="our-partners">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="main-title text-center">
+                    <h2>Our Partners</h2>
+                    <p>We only work with the best companies around the globe</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg">
+                <div class="our_partner">
+                    <img class="img-fluid" src="~/Content/images/partners/1.png" alt="1.png">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg">
+                <div class="our_partner">
+                    <img class="img-fluid" src="~/Content/images/partners/2.png" alt="2.png">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg">
+                <div class="our_partner">
+                    <img class="img-fluid" src="~/Content/images/partners/3.png" alt="3.png">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg">
+                <div class="our_partner">
+                    <img class="img-fluid" src="~/Content/images/partners/4.png" alt="4.png">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg">
+                <div class="our_partner">
+                    <img class="img-fluid" src="~/Content/images/partners/5.png" alt="5.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Start Partners -->
+<section class="start-partners bgc-thm pt50 pb50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="start_partner tac-smd">
+                    <h2>Become a Real Estate Agent</h2>
+                    <p>We only work with the best companies around the globe</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="parner_reg_btn text-right tac-smd">
+                    <a class="btn btn-thm2" href="@Url.Action("Register","Giris")">Hemen kaydol</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

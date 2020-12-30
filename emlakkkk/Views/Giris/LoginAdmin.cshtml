@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "LoginAdmin";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+
+    <div class="login_wrapper">
+
+        <div class="animate form login_form">
+
+            <section class="login_content">
+                <img src="~/Content/images/header-logo2.png" width="100" height="100" /><br /><br />
+                @using (Html.BeginForm("LoginAdmin", "Giris", FormMethod.Post))
+                {
+                    <h1>Giriş Yap</h1>
+                    <h4 style="color:#eb6464">@TempData["messageRed1"]</h4>
+                    <div>
+                        <input type="email" class="form-control" name="mail" placeholder="E-Posta" required aria-required="true" />
+                    </div>
+                    <div>
+                        <input type="password" class="form-control" name="password" placeholder="Şifre" required aria-required="true" />
+                    </div>
+                    <div>
+                        <input class="btn btn-default submit" type="submit" value="Giriş" />
+                        <a class="reset_pass" href="#">Şifreni mi unuttun?</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="separator">
+                        <div class="clearfix"></div>
+                        <br />
+
+                        <div>
+                            <p>© @DateTime.Now.Year Emlak. All Rights Reserved. </p>
+                        </div>
+                    </div>
+                }
+            </section>
+        </div>
+    </div>
+</div>
+

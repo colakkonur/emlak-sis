@@ -1,0 +1,386 @@
+﻿@model Tuple<List<emlakkkk.Models.categories>, List<emlakkkk.Models.provinces>, List<emlakkkk.Models.counties>>
+@{
+    ViewBag.Title = "Advertise";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHHQTvatF9S2fpqG81M-I2cW8EY1MkFrA"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<div class="col-lg-12 mb10">
+    <div class="breadcrumb_content style2">
+        <h2 class="breadcrumb_title">İlan yayınlamaya başla!</h2>
+        <p>We are glad to see you again!</p>
+    </div>
+</div>
+<div class="col-lg-12">
+    @if (TempData["DonenHataMesaji"] != null)
+    {
+        <div class="ui_kit_message_box">
+            <div class="alert alart_style_four alert-dismissible fade show" role="alert">
+                @TempData["DonenHataMesaji"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </div>
+    }
+    @using (Html.BeginForm("Advertise", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="my_dashboard_review">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="mb30">Genel bilgiler</h4>
+                    <div class="my_profile_setting_input form-group">
+                        <label for="propertyTitle">İlan Adı</label>
+                        <input type="text" name="productName" class="form-control" id="propertyTitle" required aria-required="true">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="my_profile_setting_textarea">
+                        <label for="propertyDescription">İlan Açıklaması</label>
+                        <textarea class="form-control" name="description" id="propertyDescription" rows="7" required aria-required="true"></textarea>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>İlan Kategorisi</label>
+                        <select class="selectpicker" name="categoryId" data-live-search="true" data-width="100%" required aria-required="true">
+                            @foreach (var item in Model.Item1)
+                            {
+                                <option value="@item.categoryId">@item.categoryName.ToLower()</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>İlan türü</label>
+                        <select class="selectpicker" name="type" data-live-search="true" data-width="100%" required aria-required="true">
+                            <option value="Satılık" data-tokens="Satılık">Satılık</option>
+                            <option value="Kiralık" data-tokens="Kiralık">Kiralık</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input form-group">
+                        <label for="formGroupExamplePrice">Fiyat (Örn:250500)</label>
+                        <input type="number" name="price" class="form-control" required aria-required="true">
+                    </div>
+                    @*<div class="my_profile_setting_input form-group slidecontainer">
+                            <label for="myRange">Fiyat</label>
+                            <input type="range" min="1" max="750000" value="250000" class="slider" id="myRange">
+                            <input type="number" class="form-control" id="demo">
+                        </div>*@
+                </div>
+            </div>
+        </div>
+        <div class="my_dashboard_review mt30">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="mb30">Detaylı bilgiler</h4>
+                </div>
+                <div class="col-lg-6 col-xl-4">
+                    <div class="my_profile_setting_input form-group">
+                        <label for="sizePrefix">Metrekare</label>
+                        <input type="number" name="squareMeters" class="form-control" id="sizePrefix" required aria-required="true">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>Oda sayısı</label>
+                        <select class="selectpicker" name="roomQuantity" data-live-search="true" data-width="100%" required aria-required="true">
+                            @for (int i = 1; i < 6; i++)
+                            {
+                                <option value="@i" data-tokens="@i">@i</option>
+                            }
+                            <option value="6+" data-tokens="6+">6+</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>Kat</label>
+                        <select class="selectpicker" name="floor" data-live-search="true" data-width="100%" required aria-required="true">
+                            <option value="Zemin Kat" data-tokens="Zemin">Zemin</option>
+                            @for (int i = 2; i < 6; i++)
+                            {
+                                <option value="@i" data-tokens="@i">@i</option>
+                            }
+                            <option value="6+" data-tokens="6+">6+</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>Isıtma tipi</label>
+                        <select class="selectpicker" name="heatingType" data-live-search="true" data-width="100%" required aria-required="true">
+                            <option value="Doğalgazlı Merkezi Isıtıcılı">Doğalgazlı Merkezi Isıtıcılı</option>
+                            <option value="Güneş Enerjisi">Güneş Enerjisi</option>
+                            <option value="Odunlu Isıtma Sistemleri">Odunlu Isıtma Sistemi</option>
+                            <option value="Elektrik Merkezi Isıtıcılar-Isı Pompaları">Elektrik Merkezi Isıtıcılar-Isı Pompası</option>
+                            <option value="Sıvı Yakıtlı Merkezi Isıtma Sistemleri">Sıvı Yakıtlı Merkezi Isıtma Sistemi</option>
+                            <option value="LPG’li Merkezi Isıtıcılar">LPG’li Merkezi Isıtıcı</option>
+                            <option value="Termosifon ile Su Isıtma">Termosifon</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-4">
+                    <div class="my_profile_setting_input form-group">
+                        <label for="landArea">Depozito (%)</label>
+                        <input type="range" name="deposit" class="form-control" min="0" max="100" value="15" id="myRange" required aria-required="true">
+                        <strong><span id="demo"></span></strong>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-">
+                        <label for="LASPostfix">Yapım yılı</label>
+                        <select class="selectpicker" name="BuildingAge" data-live-search="true" data-width="100%" required aria-required="true">
+                            @for (int i = DateTime.Now.Year; i >= 1950; i--)
+                            {
+                                <option value="@i" data-tokens="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>Yapı durumu</label>
+                        <select class="selectpicker" name="buildingStatus" data-live-search="true" data-width="100%" required aria-required="true">
+                            <option value="Sıfır" data-tokens="Sıfır">Sıfır</option>
+                            <option value="İkinci El" data-tokens="İkinci El">İkinci El</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-4">
+                    <div class="my_profile_setting_input form-group">
+                        <label>Dosya(Plan vs.)</label>
+                        <div class="avatar-edit">
+                            <input class="btn btn-thm" type="file" name="Ekler" accept="application/pdf, application/vnd.ms-excel, application/excel">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <h4>Özellikler</h4>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-2">
+                    <ul class="ui_kit_checkbox selectable-list">
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="carPark" class="custom-control-input" id="customCheck1" value="1">
+                                <label class="custom-control-label" for="customCheck1">Otopark</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="swimmingPool" class="custom-control-input" id="customCheck2" value="1">
+                                <label class="custom-control-label" for="customCheck2">Havuz</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="sauna" class="custom-control-input" id="customCheck3" value="1">
+                                <label class="custom-control-label" for="customCheck3">Sauna</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-2">
+                    <ul class="ui_kit_checkbox selectable-list">
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="airConditioning" class="custom-control-input" id="customCheck4" value="1">
+                                <label class="custom-control-label" for="customCheck4">Klima</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="furnitureStatus" class="custom-control-input" id="customCheck5" value="1">
+                                <label class="custom-control-label" for="customCheck5">Mobilyalı</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="dues" class="custom-control-input" id="customCheck6" value="1">
+                                <label class="custom-control-label" for="customCheck6">Aidatlı</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-2">
+                    <ul class="ui_kit_checkbox selectable-list">
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="gym" class="custom-control-input" id="customCheck7" value="1">
+                                <label class="custom-control-label" for="customCheck7">Spor Salonu</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="wifi" class="custom-control-input" id="customCheck8" value="1">
+                                <label class="custom-control-label" for="customCheck8">WiFi</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xl-12">
+                    <h4>Diğer</h4>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-2">
+                    <ul class="ui_kit_checkbox selectable-list">
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="eligibilityForCredit" class="custom-control-input" id="customCheck9" value="1">
+                                <label class="custom-control-label" for="customCheck9">Krediye Uygun</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="swapability" class="custom-control-input" id="customCheck10" value="1">
+                                <label class="custom-control-label" for="customCheck10">Takasa Uygun</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="my_dashboard_review mt30">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="mb30">İlan görselleri</h4>
+                </div>
+                <div class="col-lg-6 col-xl-4">
+                    <div class="my_profile_setting_input form-group">
+                        <label>Görseller</label>
+                        <div class="avatar-edit">
+                            <input type="file" name="Gorsel" class="btn btn-thm" accept=".png,.jpg,.jpeg,.webp" required aria-required="true" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="my_dashboard_review mt30">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="mb30">Lokasyon</h4>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>Ülke</label>
+                        <select class="selectpicker" name="countryName" data-live-search="true" data-width="100%" required aria-required="true">
+                            <option selected value="Türkiye" data-tokens="Türkiye">Türkiye</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>İl</label>
+                        <select class="selectpicker" id="city" name="provinceId" data-live-search="true" data-width="100%" required aria-required="true">
+                            @foreach (var item in Model.Item2)
+                            {
+                                <option value="@item.provinceId">@item.provinceName.ToLower()</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                @*<div class="col-lg-4 col-xl-4">
+                        <div class="my_profile_setting_input ui_kit_select_search form-group">
+                            <label>İlçe</label>
+                            <select class="form-control" id="district" name="countyId" data-live-search="true" data-width="100%" required aria-required="true"></select>
+                        </div>
+                    </div>*@
+                <div class="col-lg-4 col-xl-4">
+                    <div class="my_profile_setting_input ui_kit_select_search form-group">
+                        <label>İlçe</label>
+                        <select class="selectpicker" name="countyId" data-live-search="true" data-width="100%" required aria-required="true">
+                            @foreach (var item in Model.Item3)
+                            {
+                                <option value="@item.countyId">@item.countyName.ToLower()</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="my_profile_setting_textarea">
+                        <label for="Adres">Adres</label>
+                        <textarea type="text" name="adress" class="form-control" rows="3" id="Adres" required aria-required="true"></textarea>
+                    </div>
+                </div>
+                <br />
+                <div class="col-lg-12" style="width:100%">
+                    <label><strong>Konum (Konum işaretini konumunuza taşıyın.)</strong></label>
+                    <input hidden type="text" id="txt" name="latLong" value="" required aria-required="true" />
+                    <div id="map-canvas" style="width:100%;height:400px;">
+                    </div>
+                    <br />
+                </div>
+                <div class="col-xl-12">
+                    <div class="my_profile_setting_input">
+                        <input type="submit" class="btn btn2 float-right" onclick="kordinatal()" value="Kaydet">
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function () {
+        output.innerHTML = "%" + this.value;
+    }
+</script>
+<script type="text/javascript">
+        $("#city").change(function () {
+            $("#district").empty();
+
+            var city = $("#city").val();
+
+            $.ajax({
+                url: '@Url.Action("GetDistricts","User")',
+                type: "POST",
+                dataType: "json",
+                data: { prvCode: city },
+                success: function (data) {
+                    $.each(data, function () {
+                        $('#district').append('<option value=' + this.countyId + '>' + this.countyName + '</option>');
+                    });
+                }
+            });
+    });
+</script>
+<script type="text/javascript">
+    var map;
+    var marker;
+    $(document).ready(function mapyukle() {
+
+        var mapMerkezi = new google.maps.LatLng(39.22656699674193, 35.039275875000016);//bu konum kayserinin konumu. siz isterseniz başka yer yapabilrisinz.
+        var mapOptions = {
+            zoom: 6,
+            center: mapMerkezi
+        };
+        //map-canvas isimli html nesnemiz mapOptions özellikleri ile map oluyor.
+        map = new google.maps.Map(document.getElementById('map-canvas')
+            , mapOptions);
+        //markeri yani işaretimizi haritanın ortasına konumlandırdı. Taşınabilir yaptık.
+        marker = new google.maps.Marker({
+            position: map.getCenter(),
+            map: map,
+            draggable: true
+        });
+
+        //simdi de haritaya tıklandığında markeri o noktaya alcak kodumuz
+        google.maps.event.addListener(map, 'click', function (e) {
+            marker.position = e.latLng;
+        });
+
+
+    })
+    function kordinatal() {
+        var txt = document.getElementById('txt');
+        txt.value = marker.position;
+        return false;
+    }
+</script>    

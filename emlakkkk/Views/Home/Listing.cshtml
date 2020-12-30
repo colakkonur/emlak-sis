@@ -1,0 +1,294 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model Tuple<IPagedList<emlakkkk.Models.products>, List<emlakkkk.Models.images>, List<emlakkkk.Models.provinces>, List<emlakkkk.Models.counties>>
+@using emlakkkk.Helper
+
+@{
+    ViewBag.Title = "Listing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Listing Grid View -->
+<section class="our-listing bgc-f7 pb30-991">
+    <div class="container">
+        @*filtre alanı Mobil*@
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="listing_sidebar dn db-991">
+                    <div class="sidebar_content_details style3">
+                        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+                        <div class="sidebar_listing_list style2 mobile_sytle_sidebar mb0">
+                            <div class="sidebar_advanced_search_widget">
+                                <h4 class="mb25">Detaylı arama <a class="filter_closed_btn float-right" href="#"><small>Filtreleri gizle</small> <span class="flaticon-close"></span></a></h4>
+                                <ul class="sasw_list style2 mb0">
+                                    @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <li class="search_area">
+                                            <div class="form-group">
+                                                <input type="text" name="productName" class="form-control"placeholder="Anahtar Kelime" value="@ViewBag.anahtarKelimem">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="search_option_button">
+                                                <input hidden value="1" name="filtreTetikleyici" />
+                                                <button type="submit" class="btn btn-block btn-thm">Ara</button>
+                                            </div>
+                                        </li>
+                                        <br />
+                                    }
+                                    @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <li>
+                                            <div class="search_option_two">
+                                                <div class="candidate_revew_select">
+                                                    <select name="Kategori" class="selectpicker show-tick">
+                                                        @foreach (var item in ViewBag.kategoriler)
+                                                        {
+                                                            <option value="@(ViewBag.kategorim != null ? ViewBag.kategorim : item.ToString())">@item.ToString()</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="search_option_two">
+                                                <div class="candidate_revew_select">
+                                                    <select name="provinceName" data-live-search="true" class="selectpicker show-tick">
+                                                        @foreach (var item in Model.Item3)
+                                                        {
+                                                            <option value="@(ViewBag.ilim != null ? ViewBag.ilim : item.provinceName)">@item.provinceName.ToLower()</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="search_option_two">
+                                                <div class="candidate_revew_select">
+                                                    <select name="type" class="selectpicker w100 show-tick">
+                                                        <option value="@(ViewBag.tipim != null ? ViewBag.tipim : "Satılık")">Satılık</option>
+                                                        <option value="Kiralık">Kiralık</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="min_area list-inline-item">
+                                            <div class="form-group">
+                                                <input type="number" name="MinFiyat" class="form-control" placeholder="Min. Fiyat">
+                                            </div>
+                                        </li>
+                                        <li class="max_area list-inline-item">
+                                            <div class="form-group">
+                                                <input type="number" name="MaxFiyat" class="form-control" placeholder="Max. Fiyat">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="search_option_button">
+                                                <input hidden value="2" name="filtreTetikleyici" />
+                                                <button type="submit" class="btn btn-block btn-thm">Filtrele</button>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="dn db-991">
+                    <div id="main2">
+                        <span id="open2" class="flaticon-filter-results-button filter_open_btn style3"> Filtrele</span>
+                    </div>
+                </div>
+                <div class="breadcrumb_content style2 mt30-767 mb30-767">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Anasayfa</a></li>
+                        <li class="breadcrumb-item active text-thm" aria-current="page">İlanlar</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @*filtre alanı PC*@
+            <div class="col-lg-4 col-xl-4">
+                <div class="sidebar_listing_list dn-991">
+                    <div class="sidebar_advanced_search_widget">
+                        <ul class="sasw_list mb0">
+                            @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <li class="search_area">
+                                    <div class="form-group">
+                                        <input type="text" name="productName" class="form-control" placeholder="Anahtar Kelime" value="@ViewBag.anahtarKelimem">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="search_option_button">
+                                        <input hidden value="1" name="filtreTetikleyici" />
+                                        <button type="submit" class="btn btn-block btn-thm">Ara</button>
+                                    </div>
+                                </li>
+                                <br />
+                            }
+                            @using (Html.BeginForm("Listing", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <li>
+                                    <div class="search_option_two">
+                                        <div class="candidate_revew_select" style="width:100%">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <label style="font-size:13px" class="input-group-text" for="kategori">Kategori</label>
+                                                </div>
+                                                <select id="kategori" name="Kategori" class="selectpicker show-tick">
+                                                    @foreach (var item in ViewBag.kategoriler)
+                                                    {
+                                                        <option value="@(ViewBag.kategorim != null ? ViewBag.kategorim : item.ToString())">@item.ToString()</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="search_option_two">
+                                        <div class="candidate_revew_select">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <label style="font-size:11px" class="input-group-text" for="il">Lokasyon</label>
+                                                </div>
+                                                <select id="il" name="provinceName" data-live-search="true" class="selectpicker show-tick" >
+                                                    @foreach (var item in Model.Item3)
+                                                    {
+                                                        <option value="@(ViewBag.ilim != null ? ViewBag.ilim : item.provinceName)">@item.provinceName.ToLower()</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            </div>
+                                        </div>
+                                </li>
+                                <li>
+                                    <div class="search_option_two">
+                                        <div class="candidate_revew_select">
+                                            <select name="type" class="selectpicker w100 show-tick">
+                                                <option value="@(ViewBag.tipim != null ? ViewBag.tipim : "Satılık")">Satılık</option>
+                                                <option value="Kiralık">Kiralık</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="min_area list-inline-item">
+                                    <div class="form-group">
+                                        <input type="number" name="MinFiyat" class="form-control" placeholder="Min. Fiyat">
+                                    </div>
+                                </li>
+                                <li class="max_area list-inline-item">
+                                    <div class="form-group">
+                                        <input type="number" name="MaxFiyat" class="form-control" placeholder="Max. Fiyat">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="search_option_button">
+                                        <input hidden value="2" name="filtreTetikleyici" />
+                                        <button type="submit" class="btn btn-block btn-thm">Filtrele</button>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-8">
+                <div class="row">
+                    <div class="grid_list_search_result">
+                        <div class="col-sm-12 col-md-4 col-lg-4 col-xl-5">
+                            <div class="left_area tac-xsd">
+                                <p>@Model.Item1.Count() Arama sonucu - <a style="color:#ff5a5f" href="@Url.Action("Listing","Home", new { filterDelete = 1 })">Arama kriterini temizle</a></p>
+                            </div>
+                        </div>
+                        @*<div class="col-sm-12 col-md-8 col-lg-8 col-xl-7">
+                            <div class="right_area text-right tac-xsd">
+                                <ul>
+                                    <li class="list-inline-item">
+                                        <span class="stts">Status:</span>
+                                        <select class="selectpicker show-tick">
+                                            <option>All Status</option>
+                                            <option>Recent</option>
+                                            <option>Old Review</option>
+                                        </select>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <span class="shrtby">Sort by:</span>
+                                        <select class="selectpicker show-tick">
+                                            <option>Featured First</option>
+                                            <option>Featured 2nd</option>
+                                            <option>Featured 3rd</option>
+                                            <option>Featured 4th</option>
+                                            <option>Featured 5th</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="row">
+                    @{
+                        if (Model.Item1.Count() == 0)
+                        {
+                            <div class="mbp_pagination">
+                                <ul class="page_navigation">
+                                    <h4 class="breadcrumb_title">Aradığınız kriterlere uygun ilan bulunamadı.</h4>
+                                </ul>
+                            </div>
+                        }
+                    }
+                    @foreach (var item in Model.Item1)
+                    {
+                        <div class="col-md-6 col-lg-6">
+                            <div class="feat_property home7">
+                                <div class="thumb">
+                                    @foreach (var item2 in Model.Item2.Where(w => w.productId == item.productId).Take(1))
+                                    {
+                                        <img class="img-whp" style="width:308px;height:205px" src="~/Content/uploads/images/@item2.imageSource.ToString()" alt="fp1.jpg">
+                                    }
+                                    <div class="thmb_cntnt">
+                                        <ul class="tag mb0">
+                                            <li style="background-color:@(@item.type == "Satılık" ? "darkcyan" : "cornflowerblue")" class="list-inline-item"><a href="#">@item.type</a></li>
+                                            <li style="background-color:coral" class="list-inline-item"><a href="#">@item.categories.categoryName</a></li>
+                                            <li class="list-inline-item"><a href="#">@item.counties.provinces.provinceName</a></li>
+                                        </ul>
+                                        <a class="fp_price" href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})">@item.price<small>/TL</small></a>
+                                    </div>
+                                </div>
+                                <div class="details">
+                                    <div class="tc_content">
+                                        <p class="text-thm">@item.categories.categoryName</p>
+                                        <a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})"><h4>@item.productName</h4></a>
+                                        <a href="@Url.Action("ListingSingle","Home", new {category = @Url.FriendlyURLTitle(item.categories.categoryName), baslik = @Url.FriendlyURLTitle(@item.productName), id = @item.productId})"> <p><span class="flaticon-placeholder"></span> @item.countryName @item.counties.provinces.provinceName @item.counties.countyName</p></a>
+                                    </div>
+                                    <div class="fp_footer">
+                                        <ul class="fp_meta float-left mb0">
+                                            <li class="list-inline-item"><a href="@Url.Action("MemberSingle","Home", new {ad = @Url.FriendlyURLTitle(item.users.name), soyad = @Url.FriendlyURLTitle(item.users.surname), id = @item.users.userId})"><img style="height:42px;width:42px;border-radius:50px 50px" src="~/Content/uploads/avatar/@(@item.users.avatarSource != null ? item.users.avatarSource : "User-01.png")" alt="@item.users.name @item.users.surname.ToUpper()"></a></li>
+                                            <li class="list-inline-item"><a href="@Url.Action("MemberSingle","Home", new {ad = @Url.FriendlyURLTitle(item.users.name), soyad = @Url.FriendlyURLTitle(item.users.surname), id = @item.users.userId})">@item.users.name @item.users.surname.ToUpper()</a></li>
+                                        </ul>
+                                        <div class="fp_pdate float-right">@String.Format("{0:d  MMMM dddd}", @item.releaseDate)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-lg-12 mt20">
+                        <div class="mbp_pagination">
+                            <ul class="page_navigation">
+                                @Html.PagedListPager(Model.Item1, page => Url.Action("Listing", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

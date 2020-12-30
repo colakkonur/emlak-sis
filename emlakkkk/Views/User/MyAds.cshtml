@@ -1,0 +1,123 @@
+﻿@model Tuple<List<emlakkkk.Models.images>, List<emlakkkk.Models.products>>
+@{
+    ViewBag.Title = "MyAds";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="col-lg-4 col-xl-4 mb10">
+    <div class="breadcrumb_content style2 mb30-991">
+        <h2 class="breadcrumb_title">İlanlarım</h2>
+        <p>We are glad to see you again!</p>
+    </div>
+</div>
+<div class="col-lg-8 col-xl-8">
+    <div class="candidate_revew_select style2 text-right mb30-991">
+        <ul class="mb0">
+            <li class="list-inline-item">
+                <div class="candidate_revew_search_box course fn-520">
+                    <form class="form-inline my-2">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search Courses" aria-label="Search">
+                        <button class="btn my-2 my-sm-0" type="submit"><span class="flaticon-magnifying-glass"></span></button>
+                    </form>
+                </div>
+            </li>
+            <li class="list-inline-item">
+                <select class="selectpicker show-tick">
+                    <option>Featured First</option>
+                    <option>Recent</option>
+                    <option>Old Review</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="col-lg-12">
+    @if (TempData["DonenMesaj"] != null)
+    {
+        <div class="ui_kit_message_box">
+            <div class="alert alart_style_three alert-dismissible fade show" role="alert">
+                @TempData["DonenMesaj"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </div>
+    }
+    @if (TempData["DonenHataMesaji"] != null)
+    {
+        <div class="ui_kit_message_box">
+            <div class="alert alart_style_four alert-dismissible fade show" role="alert">
+                @TempData["DonenHataMesaji"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </div>
+    }
+    <div class="my_dashboard_review mb40">
+        <div class="favorite_item_list">
+            @if (Model.Item2.Count() < 1)
+            {
+                <div class="mbp_pagination">
+                    <ul class="page_navigation">
+                        <h2 class="breadcrumb_title">Henüz yayınlanmış ilanın yok</h2>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model.Item2)
+                {
+                    <div class="feat_property list favorite_page">
+                        <div class="thumb">
+                            @foreach (var item2 in Model.Item1.Where(w => w.productId == item.productId))
+                            {
+                                <img class="img-whp" src="~/Content/uploads/images/@item2.imageSource.ToString()" alt="">
+                            }
+                            <div class="thmb_cntnt">
+                                <ul class="tag mb0">
+                                    <li class="list-inline-item dn"></li>
+                                    <li class="list-inline-item"><a>@item.type</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="details">
+                            <div class="tc_content">
+                                <h4>@item.productName</h4>
+                                <p><span class="flaticon-placeholder"></span> @item.countryName, @item.counties.provinces.provinceName, @item.counties.countyName</p>
+                                <a class="fp_price text-thm" href="#">@item.price<small>/TL</small></a>
+                            </div>
+                        </div>
+                        <ul class="view_edit_delete_list mb0 mt35">
+                            @using (Html.BeginForm("Sil", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <input type="hidden" name="productId" value="@item.productId">
+                                <button class="btn" type="submit"><i class="fa fa-trash"></i></button>
+                            }
+                        </ul>
+                    </div>
+                }
+            }
+
+            <div class="mbp_pagination">
+                <ul class="page_navigation">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true"> <span class="flaticon-left-arrow"></span> Prev</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="#">29</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#"><span class="flaticon-right-arrow"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,187 @@
+﻿@model Tuple<List<emlakkkk.Models.sss>>
+@using emlakkkk.Helper
+@{
+    ViewBag.Title = "Sss";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<style>
+    #myInput {
+        background-image: url('https://www.w3schools.com/css/searchicon.png'); /* Add a search icon to input */
+        background-position: 10px 12px; /* Position the search icon */
+        background-repeat: no-repeat; /* Do not repeat the icon image */
+        width: 100%; /* Full-width */
+        padding: 12px 20px 12px 40px; /* Add some padding */
+        border: 1px solid #ddd; /* Add a grey border */
+        margin-bottom: 12px; /* Add some space below the input */
+    }
+
+    #myTable {
+        border-collapse: collapse; /* Collapse borders */
+        width: 100%; /* Full-width */
+        border: 1px solid #ddd; /* Add a grey border */
+    }
+
+        #myTable th, #myTable td {
+            text-align: left; /* Left-align text */
+            padding: 12px; /* Add padding */
+        }
+
+        #myTable tr {
+            /* Add a bottom border to all table rows */
+            border-bottom: 1px solid #ddd;
+        }
+
+            #myTable tr.header, #myTable tr:hover {
+                /* Add a grey background color to the table header and on hover */
+                background-color: #f1f1f1;
+            }
+</style>
+<div class="">
+    <!-- page content -->
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Blog Sistemi </h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-12 col-sm-12 col-xs-12 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Post Oluştur</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                @using (Html.BeginForm("Sss", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="x_content">
+                        <p><a href="http://www.kalbimanaokulu.com/blog"><strong>kalbimanaokulu.com/blog</strong></a> adresinde paylaşılmak üzere post yayımla(Kapak görseli seçimi zorunludur).</p><br />
+                        <p style="color:#ff0000">@TempData["MessageRed"]</p>
+                        <div class="form-group">
+                            <label class="control-label">Sıkça Sorulan Sorular Başlığı</label>
+                            <div class="">
+                                <input type="text" class="form-control" name="sssTitle" placeholder="Sıkça Sorulan Sorular Başlığı" value="@TempData["postBaslik"]" required aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Sıkça Sorulan Sorular İçeriği</label>
+                            <div class="">
+                                <textarea id="editor1" type="text" class="form-control" name="sssContent" placeholder="Sıkça Sorulan Sorular İçeriği" style="height:100px">@TempData["postIcerik"]</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <div>
+                                    <br />
+                                    <input type="submit" class="btn btn-success" value="Kaydet" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- /page content -->
+    <div class="page-title">
+        <div class="title_left">
+            <h3> Ürünler <small> </small> </h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Yayınlanan Ürünler </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+                    <div class="row">
+
+                        <p>Bu alandan daha önce yayınlanan ürünleri inceleyebilir ya da silebilirsiniz.</p><br />
+                        <p style="color:green">@TempData["DonenMesaj"]</p>
+                        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Sss başlığına göre ara..">
+                        <table id="myTable">
+                            <tr class="header">
+                                <th width="10%">Id</th>
+                                <th>Sss Başlığı</th>
+                                <th width="7%">İşlem</th>
+                            </tr>
+                            @foreach (var item in Model.Item1)
+                            {
+                                <tr>
+                                    <td><a href="#">@item.sssId</a> </td>
+                                    <td><a href="#">@(item.sssTitle.Count() > 100 ? item.sssTitle.Substring(0, 100) + "..." : item.sssTitle )</a></td>
+                                    <td>
+                                        @using (Html.BeginForm("Sil", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <input type="hidden" name="sssId" value="@item.sssId" />
+                                            <button style="background-color:transparent;border:none" title="Sil"><i class="fa fa-times"></i> Sil</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var editor = CKEDITOR.instances['editor1'];
+    if (editor) { editor.destroy(true); }
+    CKEDITOR.replace('editor1', {
+        enterMode: CKEDITOR.ENTER_BR,
+    });
+</script>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+
+

@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewBag.Title = "Membership";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="col-lg-12 mb10">
+    <div class="breadcrumb_content style2">
+        <h2 class="breadcrumb_title">Profilim</h2>
+        <p>We are glad to see you again!</p>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="my_dashboard_review">
+        <div class="row">
+            <div class="col-xl-2">
+                <h4>Profil bilgilerim </h4>
+            </div>
+            @using (Html.BeginForm("BilgiDegistir", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="col-xl-10">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="wrap-custom-file">
+                                <input type="file" name="avatar" id="image1" accept=".gif, .jpg, .png"  onchange="$('#resim')[0].src = window.URL.createObjectURL(this.files[0])"/>
+                                <label for="image1" >
+                                    <img id="resim" src="~/Content/uploads/avatar/@(ViewBag.avatarr != null ? ViewBag.avatarr : "User-01.png")" />
+                                    <span><i class="flaticon-download"></i> Upload Photo </span>
+                                </label>
+                            </div>
+                            <p>*minimum 260px x 260px</p>
+                        </div>
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleEmail">Email</label>
+                                <input type="email" name="mail" class="form-control" id="formGroupExampleEmail" value="@ViewBag.mail" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleInput3">İsim</label>
+                                <input type="text" name="name" class="form-control" id="formGroupExampleInput3" value="@ViewBag.ad" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleInput4">Soyisim</label>
+                                <input type="text" name="surname" class="form-control" id="formGroupExampleInput4" value="@ViewBag.soyad" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleInput8">Telefon Numaram</label>
+                                <input type="number" onblur="TelefonKontrol(this)" name="phone" class="form-control" id="formGroupExampleInput8" value="@ViewBag.telefon" placeholder="Örn:5552226633" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <script>
+                            function TelefonKontrol(nesne) {
+                                var boyut = nesne.value;
+                                if (boyut.length < 8) {
+                                    nesne.style.backgroundColor = "#ff6666";
+                                    nesne.style.color = "White";
+                                    nesne.value = "";
+                                    return;
+                                }
+                                var pattern = /^[\s\S]{10,10}$/;
+
+                                if (!boyut.match(pattern)) {
+                                    nesne.style.backgroundColor = "#ff6666";
+                                    nesne.style.color = "White";
+                                    nesne.value = "";
+                                    return;
+                                }
+                                nesne.style.backgroundColor = "White";
+                                nesne.style.color = "Black";
+
+                            }
+                        </script>
+                        <div class="col-xl-12">
+                            <div class="my_profile_setting_textarea">
+                                <label for="exampleFormControlTextarea1">Hakkımda</label>
+                                <textarea class="form-control" name="about" id="exampleFormControlTextarea1" rows="7" required="" aria-required="true">@ViewBag.hakkimda</textarea>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 text-right">
+                            <div class="my_profile_setting_input">
+                                <button class="btn btn1">Profilimi Görüntüle</button>
+                                <button class="btn btn2" type="submit">Bilgilerimi Güncelle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @{
+                if (TempData["message"] != null)
+                {
+                    <script type="text/javascript">
+                        alert(@Html.Raw(Json.Encode(TempData["message"])));
+                    </script>
+                }
+            }
+        </div>
+    </div>
+    <div class="my_dashboard_review mt30">
+        <div class="row">
+            <div class="col-xl-2">
+                <h4>Sosyal Medya</h4>
+            </div>
+            @using (Html.BeginForm("SocialDegistir", "User", FormMethod.Post))
+            {
+                <div class="col-xl-10">
+                    <div class="row">
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleSkype">Skype (example@gmail.com) </label>
+                                <input type="email" name="socialSkype" class="form-control" id="formGroupExampleSkype" value="@ViewBag.skype">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleWebsite">Website (https://www.example.com) </label>
+                                <input type="url" name="socialWebsite" class="form-control" id="formGroupExampleWebsite" value="@ViewBag.website">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleFaceBook">Facebook (https://www.facebook.com/example) </label>
+                                <input type="url" name="socialFacebook" class="form-control" id="formGroupExampleFaceBook" value="@ViewBag.facebook">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleTwitter">Twitter (https://twitter.com/example) </label>
+                                <input type="url" name="socialTwitter" class="form-control" id="formGroupExampleTwitter" value="@ViewBag.twitter">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleLinkedin">Linkedin (https://www.linkedin.com/in/example) </label>
+                                <input type="url" name="socialLinkedin" class="form-control" id="formGroupExampleLinkedin" value="@ViewBag.linkedin">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleInstagram">Instagram (@@exapmle)</label>
+                                <input type="text" name="socialInstagram" class="form-control" id="formGroupExampleInstagram" value="@ViewBag.instagram">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleYoutube">Youtube (https://www.youtube.com/channel/exapmle)</label>
+                                <input type="url" name="socialYoutube" class="form-control" id="formGroupExampleYoutube" value="@ViewBag.youtube">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExamplePinterest">Pinterest (https://tr.pinterest.com/exapmle/)</label>
+                                <input type="url" name="socialPinterest" class="form-control" id="formGroupExamplePinterest" value="@ViewBag.pinterest">
+                            </div>
+                        </div>
+                        <div class="col-xl-12 text-right">
+                            <div class="my_profile_setting_input">
+                                <button class="btn btn2">Güncelle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="my_dashboard_review mt30">
+        <div class="row">
+            <div class="col-xl-2">
+                <h4>Parola</h4>
+            </div>
+            @using (Html.BeginForm("SifreDegistir", "User", FormMethod.Post))
+            {
+                <div class="col-xl-10">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleOldPass">Eski Şifre</label>
+                                <input type="text" name="password" class="form-control" id="formGroupExampleOldPass" required="" aria-required="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleNewPass">Yeni Şifre</label>
+                                <input type="text" name="NewUserPassword" class="form-control" id="formGroupExampleNewPass" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-6">
+                            <div class="my_profile_setting_input form-group">
+                                <label for="formGroupExampleConfPass">Yeni Şifre Tekrar</label>
+                                <input type="text" name="NewPasswordConfirm" class="form-control" id="formGroupExampleConfPass" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="col-xl-12">
+                            <div class="my_profile_setting_input float-right fn-520">
+                                <button class="btn btn2">Profili Güncelle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
